@@ -2,32 +2,86 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <body>
         
         <ui:composition template="./template.xhtml">
             
             <ui:define name="title">
-                Greeting
+                Listas de reproduccion
             </ui:define>
-
+            
             <ui:define name="box">
-                <h4>Hi, my name is Duke!</h4>
+                <h:dataTable value="#{listas.listasRep}" var="lista"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row"
+    		>
 
-                <h5>I'm thinking of a number
+    			<h:column>
+    				<!-- column header -->
+    				<f:facet name="header">Id Lista</f:facet>
+    				<!-- row record -->
+    				#{lista.id}
+    			</h:column>
 
-                    <br/>
-                    between
-                    <span class="highlight">0</span> and
-                    <span class="highlight">10</span>.</h5>
+    			<h:column>
+    				<f:facet name="header">Nombre</f:facet>
+    				#{lista.nombre}
+    			</h:column>
+                        <h:column>
+    				<f:facet name="header"></f:facet>
+    				<h:commandButton id="ver" value="Ver canciones" action="#{listas.ver(lista.id)}" />
+    			</h:column>
 
-                <h5>Can you guess it?</h5>
-
+    		</h:dataTable>
+                
                 <h:form>
-                    <h:inputText size="2" maxlength="2" value="#{UserNumberBean.userNumber}" />
-                    <h:commandButton id="submit" value="submit" action="response" />
+                <h:inputText value="#{listas.filtro}" />
+                <h:commandButton id="submit" value="Aplicar" action="response" />
+                <br></br>
+                <p>Seleccione las canciones que desea incluir e introduzca el nombre</p>
+                <h:inputText value="#{listas.nombreListaNueva}" />
+                <h:commandButton id="create" value="Crear" action="#{listas.crear}" />
+               
+                
+                <h:dataTable value="#{listas.canciones}" var="cancion"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row"
+    		>
+
+    			<h:column>
+    				<!-- column header -->
+    				<f:facet name="header">Id Cancion</f:facet>
+    				<!-- row record -->
+    				#{cancion.id}
+    			</h:column>
+
+    			<h:column>
+    				<f:facet name="header">Nombre</f:facet>
+    				#{cancion.nombre}
+    			</h:column>                    
+                        <h:column>
+    				<f:facet name="header">Artista</f:facet>
+    				#{cancion.artista}
+    			</h:column>
+                        <h:column>
+    				<f:facet name="header">Pais</f:facet>
+    				#{cancion.pais}
+    			</h:column>
+                        <h:column>
+    			<f:facet name="header"> 
+                        <h:outputText value="Elegir" />
+                        </f:facet>
+                            <h:selectBooleanCheckbox value="#{cancion.selected}" />
+    			</h:column>
+    		</h:dataTable>
                 </h:form>
+
+                
             </ui:define>
 
         </ui:composition>

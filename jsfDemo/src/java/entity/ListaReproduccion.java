@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 /**
  *
- * @author John
+ * @author John y Juliana :v
  */
 @Entity
 public class ListaReproduccion implements Serializable{
@@ -20,10 +20,35 @@ public class ListaReproduccion implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany
     public List<Cancion> canciones;
     
     public String nombre;
+    
+    public String getNombre()
+    {
+        return nombre;
+    }
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+    public Long getId()
+    {
+        return id;
+    }
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+    public List<Cancion> getCanciones()
+    {
+        return canciones;
+    }
+    public void setCanciones(List<Cancion> canciones)
+    {
+        this.canciones = canciones;
+    }
     
        
     

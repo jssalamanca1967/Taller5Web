@@ -47,7 +47,7 @@ public class PersistenceManager {
     }
  
     protected void createEntityManagerFactory() {
-        this.emf = Persistence.createEntityManagerFactory("CompetitorsPU", System.getProperties());
+        this.emf = Persistence.createEntityManagerFactory("CancionesPU", System.getProperties());
         if (DEBUG) {
             System.out.println("Persistence started at " + new java.util.Date());
         }
