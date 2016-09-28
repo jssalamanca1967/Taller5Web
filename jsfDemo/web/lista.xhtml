@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <body>
+        
+        <ui:composition template="./template.xhtml"
+          >
+            
+            <ui:define name="title">
+                Lista
+            </ui:define>
+            
+            <ui:define name="box">
+                
+                
+                <h:form>
+                <h:dataTable value="#{listas.cancionesActual}" var="cancion"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row"
+    		>
+
+    			<h:column>
+    				<!-- column header -->
+    				<f:facet name="header">Id Cancion</f:facet>
+    				<!-- row record -->
+    				#{cancion.id}
+    			</h:column>
+
+    			<h:column>
+    				<f:facet name="header">Nombre</f:facet>
+    				#{cancion.nombre}
+    			</h:column>                    
+                        <h:column>
+    				<f:facet name="header">Artista</f:facet>
+    				#{cancion.artista}
+    			</h:column>
+                        <h:column>
+    				<f:facet name="header">Pais</f:facet>
+    				#{cancion.pais}
+    			</h:column>
+    		</h:dataTable>
+                </h:form>
+                
+                <h:form prependId="false">
+
+                    <h:commandButton id="backButton" value="Back" action="greeting" />
+
+                </h:form>
+                
+                
+                </ui:define>
+                
+                
+        </ui:composition>
+        
+    </body>
+</html>

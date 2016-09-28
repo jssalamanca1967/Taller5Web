@@ -8,7 +8,6 @@ package guessNumber;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -27,17 +26,57 @@ public class ListasBean implements Serializable{
     String nombreListaNueva;
     
     String crear;
+    
+    ListaReproduccion listaActual;
+    
+    ArrayList<Cancion> cancionesActual;
 
-    private static final ArrayList<ListaReproduccion> listasRep =
+    ArrayList<ListaReproduccion> listasRep =
 		new ArrayList<ListaReproduccion>(Arrays.asList(
 
-		new ListaReproduccion("Para hacer web :P", new Long(2345654), null))
+		new ListaReproduccion("Para hacer web :P", new Long(2345654), new ArrayList<Cancion>(Arrays.asList(
+
+		new Cancion("La Camisa Negra", new Long(2345654), "Juanes", "Colombia"),
+                new Cancion("Bad Romance", new Long(43567), "Lady Gaga", "USA")
+            
+	))))
 	);
     
-    Cancion[] canciones = new Cancion[] {
+    ArrayList<Cancion> canciones =
+		new ArrayList<Cancion>(Arrays.asList(
 
-		new Cancion("La Camisa Negra", new Long(2345654), "Juanes", "Colombia")
-	};
+		new Cancion("La Camisa Negra", new Long(2345654), "Juanes", "Colombia"),
+                new Cancion("Bad Romance", new Long(43567), "Lady Gaga", "USA")
+            
+	));
+    
+    public ArrayList<Cancion> getCancionesActual()
+    {
+        return cancionesActual;
+    }
+    
+    public ListaReproduccion getListaActual()
+    {
+        return listaActual;
+    }
+    
+    public void setListaActual(ListaReproduccion lis)
+    {
+        listaActual = (lis);
+        cancionesActual = listaActual.canciones;
+        System.out.println(lis.canciones);
+    }
+    
+    public ListaReproduccion buscarLista(String nom)
+    {
+        for (ListaReproduccion temp : listasRep) {
+            if(temp.nombre.equals(nom))
+                return temp;
+        }
+        
+        return null;
+    }
+    
     
     public ArrayList<ListaReproduccion> getListasRep() {
 
@@ -45,12 +84,18 @@ public class ListasBean implements Serializable{
 
 	}
     
-    public Cancion[] getCanciones() {
+    public ArrayList<Cancion> getCanciones() {
 
 		return canciones;
 
 	}
 
+    public void setLista(ListaReproduccion lista)
+    {
+        listaActual = lista;
+        cancionesActual = listaActual.canciones;
+    }
+    
     public String getFiltro() {
         return filtro;
     }
@@ -67,8 +112,10 @@ public class ListasBean implements Serializable{
         this.nombreListaNueva = nombreListaNueva;
     }
     
-    public String getResponse() {
-        return "";
+    public String getLista(ListaReproduccion lista)
+    {
+        listaActual = lista;
+        return listaActual.nombre;
     }
     
     public void crear()
@@ -76,19 +123,25 @@ public class ListasBean implements Serializable{
         
         ArrayList nuevas = new ArrayList();
         for (Cancion temp : canciones) {
-            if(temp.selected)
+            System.out.println(temp);
+            if(temp.selected){
+                temp.setSelected(false);
                 nuevas.add(temp);
+                
+            }
+                
         }
         ListaReproduccion temp = new ListaReproduccion(nombreListaNueva, new Long(12233), nuevas);
         listasRep.add(temp);
         nombreListaNueva = "";
+        
     }
     
     public static class ListaReproduccion{
 
 		String nombre;
 		Long id;
-		List canciones;
+		ArrayList canciones;
 
 		public ListaReproduccion(String nombre, Long id, ArrayList canciones) 
                 {
@@ -105,6 +158,10 @@ public class ListasBean implements Serializable{
                 public String getNombre()
                 {
                     return nombre;
+                }
+                public ArrayList getCanciones()
+                {
+                    return canciones;
                 }
 
 		//getter and setter methods
@@ -146,13 +203,13 @@ public class ListasBean implements Serializable{
                     return artista;
                 }
                 public boolean isSelected() {
-        return selected;
-    }
+        
+                    return selected;
+                }
 
-        public void setSelected(boolean selected) {
-        this.selected = selected;
+        public void setSelected(boolean set) {
+        this.selected = set;
     }
-
 		//getter and setter methods
 	}
 }
