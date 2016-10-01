@@ -3,35 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
-
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
+package playlists;
 
 /**
- * @generated
+ *
+ * @author Juleh
  */
-@Entity
-public class Cancion implements Serializable{
+public class CancionDTO {
     
-    @Id
-    @GeneratedValue(generator = "Cancion")
     private Long id; 
     private String nombre;
     private String artista;
     private String pais;
-    
-    public Cancion(String nombre, String artista, String pais, Long id)
-    {
-        this.nombre = nombre;
-        this.artista = artista;
-        this.pais = pais;
-        this.id = id;
-    }
     
     public Long getId()
     {
@@ -65,6 +48,5 @@ public class Cancion implements Serializable{
     {
         this.pais = pais;
     }
-    
     
 }

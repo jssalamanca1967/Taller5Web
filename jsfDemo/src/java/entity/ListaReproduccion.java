@@ -6,8 +6,10 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import playlists.CancionDTO;
 
 /**
  *
@@ -24,6 +26,17 @@ public class ListaReproduccion implements Serializable{
     public List<Cancion> canciones;
     
     public String nombre;
+    
+    public ListaReproduccion(String nombre, List<CancionDTO> canciones)
+    {
+        this.nombre = nombre;
+        this.canciones = new ArrayList();
+        for(int i = 0; i < canciones.size(); i++)
+        {
+            CancionDTO temp = (CancionDTO) canciones.get(i);
+            this.canciones.add(new Cancion(temp.getNombre(), temp.getArtista(), temp.getPais(), temp.getId()));
+        }
+    }
     
     public String getNombre()
     {
