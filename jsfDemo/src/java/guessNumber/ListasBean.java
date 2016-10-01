@@ -50,6 +50,17 @@ public class ListasBean implements Serializable{
             
 	));
     
+    ArrayList<Cancion> filteredCanciones;
+    
+    public ArrayList<Cancion> getFilteredCanciones()
+    {
+        return filteredCanciones;
+    }
+    
+    public void setFilteredCanciones(ArrayList<Cancion> filteredCanciones) {
+        this.filteredCanciones = filteredCanciones;
+    }
+    
     public ArrayList<Cancion> getCancionesActual()
     {
         return cancionesActual;

@@ -3,104 +3,105 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
+
     <body>
-        
+
         <ui:composition template="./template.xhtml">
-            
+
             <ui:define name="title">
                 Listas de reproduccion
             </ui:define>
-            
-            
+
+
             <ui:define name="box">
                 <h:form>
-                <h:dataTable value="#{listas.listasRep}" var="lista"
-    			styleClass="order-table"
-    			headerClass="order-table-header"
-    			rowClasses="order-table-odd-row,order-table-even-row"
-    		>
+                    <h:dataTable value="#{listas.listasRep}" var="lista"
+                                 styleClass="order-table"
+                                 headerClass="order-table-header"
+                                 rowClasses="order-table-odd-row,order-table-even-row"
+                                 >
 
-    			<h:column>
-    				<!-- column header -->
-    				<f:facet name="header">Id Lista</f:facet>
-    				<!-- row record -->
-    				#{lista.id}
-    			</h:column>
-
-    			<h:column>
-    				<f:facet name="header">Nombre</f:facet>
-    				#{lista.nombre}
-    			</h:column>
                         <h:column>
-    			<f:facet name="header"> - </f:facet>
+                            <!-- column header -->
+                            <f:facet name="header">Id Lista</f:facet>
+                            <!-- row record -->
+                            #{lista.id}
+                        </h:column>
 
-    			<h:commandButton id="lista" value="Ver" action="lista">
-                            <f:setPropertyActionListener target="#{listas.listaActual}" value="#{lista}" />
-                        </h:commandButton>
+                        <h:column>
+                            <f:facet name="header">Nombre</f:facet>
+                                #{lista.nombre}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"> - </f:facet>
 
-    		</h:column>
+                            <h:commandButton id="lista" value="Ver" action="lista">
+                                <f:setPropertyActionListener target="#{listas.listaActual}" value="#{lista}" />
+                            </h:commandButton>
 
-    		</h:dataTable>
+                        </h:column>
+
+                    </h:dataTable>
                 </h:form>
-                
+
                 <h:form>
-                <h:inputText value="#{listas.filtro}" />
-                <h:commandButton id="submit" value="Aplicar" action="apply" />
-                <br></br>
-                <p>Seleccione las canciones que desea incluir e introduzca el nombre</p>
-                <h:inputText value="#{listas.nombreListaNueva}" />
-                <h:commandButton id="create" value="Crear" action="#{listas.crear}" />
+                    <h:inputText value="#{listas.filtro}" />
+                    <h:commandButton id="submit" value="Aplicar" action="apply" />
+                    <br></br>
+                    <p>Seleccione las canciones que desea incluir e introduzca el nombre</p>
+                    <h:inputText value="#{listas.nombreListaNueva}" />
+                    <h:commandButton id="create" value="Crear" action="#{listas.crear}" />
                 </h:form>
-                
+
                 <h:form>
-                <h:dataTable value="#{listas.canciones}" var="cancion"
-    			styleClass="order-table"
-    			headerClass="order-table-header"
-    			rowClasses="order-table-odd-row,order-table-even-row"
-    		>
+                    <p:dataTable var="cancion" value="#{listas.canciones}" widgetVar="cancionesTable" rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Ninguna canción cumple con el criterio" filteredValue="#{listas.filteredCanciones}">
 
-    			<h:column>
-    				<!-- column header -->
-    				<f:facet name="header">Id Cancion</f:facet>
-    				<!-- row record -->
-    				#{cancion.id}
-    			</h:column>
-
-    			<h:column>
-    				<f:facet name="header">Nombre</f:facet>
-    				#{cancion.nombre}
-    			</h:column>                    
-                        <h:column>
-    				<f:facet name="header">Artista</f:facet>
-    				#{cancion.artista}
-    			</h:column>
-                        <h:column>
-    				<f:facet name="header">Pais</f:facet>
-    				#{cancion.pais}
-    			</h:column>
-                        <h:column>
-    			<f:facet name="header"> 
-                        <h:outputText value="Elegir" />
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Buscar en todos los campos:  " />
+                                <p:inputText id="globalFilter" onkeyup="PF('cancionesTable').filter()" style="width:150px" placeholder=""/>
+                            </p:outputPanel>
                         </f:facet>
+
+                        <p:column filterBy="#{cancion.id}" filterMatchMode="contains">
+                            <h:outputText value="#{cancion.id}" />
+                        </p:column>
+                        <p:column filterBy="#{cancion.nombre}" filterMatchMode="contains">
+                            <h:outputText value="#{cancion.nombre}" />
+                        </p:column>
+                        <p:column filterBy="#{cancion.artista}" filterMatchMode="contains">
+                            <h:outputText value="#{cancion.artista}" />
+                        </p:column>
+                        <p:column filterBy="#{cancion.pais}" filterMatchMode="contains">
+                            <h:outputText value="#{cancion.pais}" />
+                        </p:column>
+                        <p:column filterBy="#{cancion.selected}" headerText="Elegida" filterMatchMode="equals">
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('cancionesTable').filter()">
+                                    <f:converter converterId="javax.faces.Boolean" />
+                                    <f:selectItem itemLabel="Todas" itemValue="" />
+                                    <f:selectItem itemLabel="Elegida" itemValue="true" />
+                                    <f:selectItem itemLabel="No Elegida" itemValue="false" />
+                                </p:selectOneButton>
+                            </f:facet>
                             <h:selectBooleanCheckbox value="#{cancion.selected}">
-                            <f:ajax/>
+                                <f:ajax/>
                             </h:selectBooleanCheckbox>   
-    			</h:column>
-    		</h:dataTable>
+                        </p:column>
+
+                    </p:dataTable>
                 </h:form>
-                
-                <h:form>
-                    <h:inputText size="2" maxlength="2" value="#{UserNumberBean.userNumber}" />
-                    <h:commandButton id="submit" value="submit" action="response" />
-                </h:form>
-                
-                
-                </ui:define>
-                
-                
+
+
+            </ui:define>
+
+
         </ui:composition>
-        
+
     </body>
 </html>
